@@ -3,6 +3,8 @@ using CleanArchitectureCQRS.Application.Interfaces;
 using CleanArchitectureCQRS.Application.ViewModels;
 using CleanArchitectureCQRS.Domain.Interfaces;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CleanArchitectureCQRS.Application.Services
 {
@@ -18,9 +20,9 @@ namespace CleanArchitectureCQRS.Application.Services
             this._mapper = mapper;
         }
 
-        public IEnumerable<CountryViewModel> GetAll()
+        public async Task<IEnumerable<CountryViewModel>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var allCountries = this._countryRepository.GetAll();
+            var allCountries = await this._countryRepository.GetAllAsync(cancellationToken);
 
             return this._mapper.Map<IEnumerable<CountryViewModel>>(allCountries);
         }

@@ -13,9 +13,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchitectureCQRS.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class IdentityController : Controller
+    public class IdentityController : BaseController
     {
         private readonly IMapper _mapper;
         private IConfiguration _configuration;

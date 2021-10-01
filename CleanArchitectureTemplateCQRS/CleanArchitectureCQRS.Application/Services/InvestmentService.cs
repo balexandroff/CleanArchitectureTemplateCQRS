@@ -3,6 +3,8 @@ using CleanArchitectureCQRS.Application.Interfaces;
 using CleanArchitectureCQRS.Application.ViewModels;
 using CleanArchitectureCQRS.Domain.Interfaces;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CleanArchitectureCQRS.Application.Services
 {
@@ -19,9 +21,9 @@ namespace CleanArchitectureCQRS.Application.Services
             this._mapper = mapper;
         }
 
-        public IEnumerable<InvestmentViewModel> GetAll()
+        public async Task<IEnumerable<InvestmentViewModel>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var allInvestments = this._investmentRepository.GetAll();
+            var allInvestments = await this._investmentRepository.GetAllAsync(cancellationToken);
 
             return this._mapper.Map<IEnumerable<InvestmentViewModel>>(allInvestments);
         }

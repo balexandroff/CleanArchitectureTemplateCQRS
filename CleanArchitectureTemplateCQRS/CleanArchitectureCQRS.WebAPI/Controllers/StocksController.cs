@@ -1,13 +1,16 @@
-﻿using CleanArchitectureCQRS.Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+﻿using CleanArchitectureCQRS.Application.Common;
+using CleanArchitectureCQRS.Application.Interfaces;
+using CleanArchitectureCQRS.Application.Stocks.Queries;
+using CleanArchitectureCQRS.Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CleanArchitectureCQRS.API.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StocksController : Controller
+    //[Authorize]
+    public class StocksController : BaseController
     {
         private IStockService _stockService;
 
@@ -17,11 +20,9 @@ namespace CleanArchitectureCQRS.API.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAllStocks()
+        public async Task<ActionResult<ServiceResult<IEnumerable<StockViewModel>>>> GetAllStocks(CancellationToken cancellationToken)
         {
-            var result = this._stockService.GetAll();
-
-            return Json(result);
+            return Ok(await Mediator.Send(new GetAllStocksQuery(), cancellationToken));
         }
     }
 }

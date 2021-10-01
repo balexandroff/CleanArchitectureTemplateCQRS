@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using MediatR;
 
 namespace CleanArchitectureCQRS.Infrastructure.Data.Dependency
 {
@@ -30,7 +31,7 @@ namespace CleanArchitectureCQRS.Infrastructure.Data.Dependency
                           })
                           .ToList();
 
-            foreach(var repoType in repoTypes)
+            foreach (var repoType in repoTypes)
             {
                 services.AddScoped(repoType.Interface, repoType.Implementation);
             }
@@ -56,6 +57,8 @@ namespace CleanArchitectureCQRS.Infrastructure.Data.Dependency
             {
                 services.AddScoped(serviceType.Interface, serviceType.Implementation);
             }
+
+            services.AddMediatR(typeof(CleanArchitectureCQRS.Application.Common.ServiceResult).Assembly);
 
             return services;
         }

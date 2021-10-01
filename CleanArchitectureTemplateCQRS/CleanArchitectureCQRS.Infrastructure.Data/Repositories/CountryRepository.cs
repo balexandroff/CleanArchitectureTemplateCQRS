@@ -1,7 +1,9 @@
 ﻿using CleanArchitectureCQRS.Domain.Entities;
 using CleanArchitectureCQRS.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CleanArchitectureCQRS.Infrastructure.Data.Repositories
 {
@@ -9,9 +11,9 @@ namespace CleanArchitectureCQRS.Infrastructure.Data.Repositories
     {
         public CountryRepository(StocksDbContext context) : base(context) { }
 
-        public IEnumerable<Country> GetAll()
+        public async Task<IEnumerable<Country>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return _context.Countries.ToList();
+            return await _context.Countries.ToListAsync(cancellationToken);
         }
     }
 }

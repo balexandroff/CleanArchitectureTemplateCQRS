@@ -1,7 +1,10 @@
 ﻿using CleanArchitectureCQRS.Domain.Entities;
 using CleanArchitectureCQRS.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CleanArchitectureCQRS.Infrastructure.Data.Repositories
 {
@@ -9,9 +12,9 @@ namespace CleanArchitectureCQRS.Infrastructure.Data.Repositories
     {
         public InvestmentRepository(StocksDbContext context) : base(context) { }
 
-        public IEnumerable<Investment> GetAll()
+        public async Task<IEnumerable<Investment>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return _context.Investments.ToList();
+            return await _context.Investments.ToListAsync(cancellationToken);
         }
     }
 }
